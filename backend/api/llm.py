@@ -2,16 +2,17 @@ import os
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_ollama import ChatOllama
+from core.config import settings
 
 load_dotenv()
 
 llm = ChatOllama(
-    model=os.getenv("DEFAULT_MODEL"),
-    temperature=1,
-    top_p=0.95,
-    top_k=64,
-    api_key=os.getenv("OLLAMA_API_KEY"),
-    base_url=os.getenv("OLLAMA_BASE_URL"),
+    model=settings.DEFAULT_MODEL,
+    temperature=settings.TEMPERATURE,
+    top_p=settings.TOP_P,
+    top_k=settings.TOP_K,
+    api_key=settings.OLLAMA_API_KEY,
+    base_url=settings.OLLAMA_BASE_URL,
 )
 
 agent = create_agent(

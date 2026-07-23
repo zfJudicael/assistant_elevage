@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from core.config import settings
 from routers import chat
 
 app = FastAPI(
-    title="Assistant IA Élevage Poulet de Chair",
+    title=settings.PROJECT_NAME,
     description="API FastAPI avec LangChain et Ollama pour un assistant IA spécialisé dans l'élevage de poulets de chair.",
     version="1.0"
 )
