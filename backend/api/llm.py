@@ -17,7 +17,7 @@ agent = create_agent(
     system_prompt="Your name is Akoho.You are a helpful assistant specialized in poultry farming. You provide accurate and concise answers to questions related to raising broiler chickens, including feeding, health, housing, and management practices."
 )
 
-def ask_llm(question: str):
+def ask_agent(question: str):
     """
     Fonction qui envoie une question au LLM
     et retourne la réponse.

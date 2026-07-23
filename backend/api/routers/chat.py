@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from llm import ask_llm
+from llm import ask_agent
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
 
@@ -10,7 +10,7 @@ class ChatRequest(BaseModel):
 @router.post("/ask")
 def ask_ai(request: ChatRequest):
 
-    response = ask_llm(
+    response = ask_agent(
         request.message
     )
 
