@@ -19,8 +19,7 @@ agent = create_agent(
 
 def ask_agent(question: str):
     """
-    Fonction qui envoie une question au LLM
-    et retourne la réponse.
+    Fonction qui envoie une question à l'agent et retourne la réponse.
     """
 
     response = agent.invoke({
