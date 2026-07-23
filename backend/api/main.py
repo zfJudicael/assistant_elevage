@@ -1,38 +1,26 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
-
-from llm import ask_llm
-
+from fastapi.middleware.cors import CORSMiddleware
+from core.config import settings
+from routers import chat
 
 app = FastAPI(
-    title="Assistant IA Élevage Poulet de Chair",
-    description="API FastAPI avec LangChain et Groq",
+    title=settings.PROJECT_NAME,
+    description="API FastAPI avec LangChain et Ollama pour un assistant IA spécialisé dans l'élevage de poulets de chair.",
     version="1.0"
 )
 
-
-class QuestionRequest(BaseModel):
-    question: str
-
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def accueil():
-
     return {
         "message": "Assistant IA Élevage Poulet opérationnel"
     }
 
-
-
-@app.post("/ask")
-def ask_ai(request: QuestionRequest):
-
-    answer = ask_llm(
-        request.question
-    )
-
-    return {
-        "question": request.question,
-        "answer": answer
-    }
+app.include_router(chat.router)
