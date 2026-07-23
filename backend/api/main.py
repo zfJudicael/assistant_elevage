@@ -19,7 +19,6 @@ app.add_middleware(
 
 @app.get("/")
 def accueil():
-
     return {
         "message": "Assistant IA Élevage Poulet opérationnel"
     }
