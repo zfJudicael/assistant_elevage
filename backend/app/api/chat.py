@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from llm import ask_agent
+from app.llm import ask_agent
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
 

@@ -5,6 +5,8 @@ load_dotenv()
 
 class Settings:
     PROJECT_NAME: str = os.getenv("APP_NAME", "AI Agent API")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./app.db")
+    CORS_ORIGINS: list[str] = os.getenv("CORS_ORIGINS", "*").split(",")
     
     # LLM Settings
     OLLAMA_BASE_URL: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")

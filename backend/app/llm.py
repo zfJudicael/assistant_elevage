@@ -1,6 +1,6 @@
 from langchain.agents import create_agent
 from langchain_ollama import ChatOllama
-from core.config import settings
+from app.core.config import settings
 
 llm = ChatOllama(
     model=settings.DEFAULT_MODEL,
