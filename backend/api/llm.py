@@ -1,10 +1,6 @@
-import os
-from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_ollama import ChatOllama
 from core.config import settings
-
-load_dotenv()
 
 llm = ChatOllama(
     model=settings.DEFAULT_MODEL,
