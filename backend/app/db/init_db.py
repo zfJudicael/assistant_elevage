@@ -50,15 +50,15 @@ RAW_DATA = [
             {"day": "D07", "date": "08/10", "treatment": "Newcastle D7", "status": "DONE"},
             {"day": "D28", "date": "29/10", "treatment": "Gumboro", "status": "SCHEDULED"},
         ],
-        "growthData": [
-            {"day": 0, "actual": 42, "target": 42},
-            {"day": 7, "actual": 185, "target": 190},
-            {"day": 14, "actual": 420, "target": 430},
-            {"day": 21, "actual": 780, "target": 800},
-            {"day": 24, "actual": 985, "target": 1020},
-            {"day": 35, "actual": None, "target": 1800},
-            {"day": 42, "actual": None, "target": 2500},
-        ],
+        # "growthData": [
+        #     {"day": 0, "actual": 42, "target": 42},
+        #     {"day": 7, "actual": 185, "target": 190},
+        #     {"day": 14, "actual": 420, "target": 430},
+        #     {"day": 21, "actual": 780, "target": 800},
+        #     {"day": 24, "actual": 985, "target": 1020},
+        #     {"day": 35, "actual": None, "target": 1800},
+        #     {"day": 42, "actual": None, "target": 2500},
+        # ],
     },
     {
         "id": "BR-2023-05",
@@ -149,20 +149,20 @@ def init_db():
             db_group = models.ProductionGroup(
                 id=item["id"],
                 batch_name=item["batchName"],
-                age=item["age"],
+                date_enter=item["date_enter"],
                 count=item["count"],
-                mortality=item["mortality"],
+                # mortality=item["mortality"],
                 status=item["status"],
-                house=item["house"],
-                section=item["section"],
-                breed=item["breed"],
-                hatch_date=datetime.strptime(item["hatchDate"], "%Y-%m-%d").date(),
+                # house=item["house"],
+                # section=item["section"],
+                # breed=item["breed"],
+                # hatch_date=datetime.strptime(item["hatchDate"], "%Y-%m-%d").date(),
                 active=item["active"],
                 mortality_total=item["mortalityTotal"],
-                feed_intake=item["feedIntake"],
-                water_intake=item["waterIntake"],
-                last_vaccination=item["lastVaccination"],
-                next_vaccination=item["nextVaccination"],
+                # feed_intake=item["feedIntake"],
+                # water_intake=item["waterIntake"],
+                # last_vaccination=item["lastVaccination"],
+                # next_vaccination=item["nextVaccination"],
                 active_symptoms=item["activeSymptoms"],
                 health_alert=item["healthAlert"],
             )
@@ -172,15 +172,15 @@ def init_db():
             for log in item["dailyLogs"]:
                 db.add(models.DailyLog(
                     group_id=db_group.id,
-                    day=log["day"],
+                    # day=log["day"],
                     avg_weight_g=parse_weight(log["avgWeight"]),
                     mortality=log["mortality"],
-                    feed=log["feed"],
-                    water=log["water"],
-                    temp_min=log["tempMin"],
-                    temp_max=log["tempMax"],
-                    humidity=log["humidity"],
-                    lit_quality=log["litQuality"],
+                    # feed=log["feed"],
+                    # water=log["water"],
+                    # temp_min=log["tempMin"],
+                    # temp_max=log["tempMax"],
+                    # humidity=log["humidity"],
+                    # lit_quality=log["litQuality"],
                 ))
 
             for vacc in item["vaccinations"]:
@@ -192,13 +192,13 @@ def init_db():
                     status=vacc["status"],
                 ))
 
-            for growth in item["growthData"]:
-                db.add(models.GrowthData(
-                    group_id=db_group.id,
-                    day=growth["day"],
-                    actual=growth["actual"],
-                    target=growth["target"],
-                ))
+            # for growth in item["growthData"]:
+            #     db.add(models.GrowthData(
+            #         group_id=db_group.id,
+            #         day=growth["day"],
+            #         actual=growth["actual"],
+            #         target=growth["target"],
+            #     ))
 
             print(f"[OK] {item['id']} inséré")
 

@@ -26,7 +26,7 @@ app.add_middleware(
 app.include_router(groups.router)
 app.include_router(daily_logs.router)
 app.include_router(vaccinations.router)
-app.include_router(growth_data.router)
+# app.include_router(growth_data.router)
 app.include_router(stats.router)
 app.include_router(chat.router)
 

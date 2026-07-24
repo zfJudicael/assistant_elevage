@@ -5,15 +5,15 @@ from pydantic import BaseModel, ConfigDict
 
 
 class DailyLogBase(BaseModel):
-    day: str
+    # day: str
     avg_weight_g: Optional[float] = None
     mortality: int = 0
-    feed: Optional[float] = None
-    water: Optional[float] = None
-    temp_min: Optional[float] = None
-    temp_max: Optional[float] = None
-    humidity: Optional[float] = None
-    lit_quality: Optional[str] = None
+    # feed: Optional[float] = None
+    # water: Optional[float] = None
+    # temp_min: Optional[float] = None
+    # temp_max: Optional[float] = None
+    # humidity: Optional[float] = None
+    # lit_quality: Optional[str] = None
 
 
 class DailyLogCreate(DailyLogBase):

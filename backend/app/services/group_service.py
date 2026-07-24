@@ -7,7 +7,7 @@ from app.db import models
 from app.schemas import production_group as schemas
 
 
-def get_group(db: Session, group_id: str) -> Optional[models.ProductionGroup]:
+def get_group(db: Session, group_id: int) -> Optional[models.ProductionGroup]:
     return db.query(models.ProductionGroup).filter(
         models.ProductionGroup.id == group_id
     ).first()
@@ -42,7 +42,7 @@ def create_group(db: Session, group: schemas.ProductionGroupCreate):
     return db_group
 
 
-def update_group(db: Session, group_id: str, group: schemas.ProductionGroupUpdate):
+def update_group(db: Session, group_id: int, group: schemas.ProductionGroupUpdate):
     db_group = get_group(db, group_id)
     if not db_group:
         return None
@@ -54,7 +54,7 @@ def update_group(db: Session, group_id: str, group: schemas.ProductionGroupUpdat
     return db_group
 
 
-def delete_group(db: Session, group_id: str) -> bool:
+def delete_group(db: Session, group_id: int) -> bool:
     db_group = get_group(db, group_id)
     if not db_group:
         return False
