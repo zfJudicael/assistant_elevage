@@ -2,12 +2,14 @@
 from typing import Optional
 
 from pydantic import BaseModel, ConfigDict
+from datetime import date as date_type
 
 
 class DailyLogBase(BaseModel):
-    # day: str
+    date: date_type
     avg_weight_g: Optional[float] = None
     mortality: int = 0
+    symptom: Optional[str] = None
     # feed: Optional[float] = None
     # water: Optional[float] = None
     # temp_min: Optional[float] = None
@@ -18,6 +20,13 @@ class DailyLogBase(BaseModel):
 
 class DailyLogCreate(DailyLogBase):
     pass
+
+class DailyLogUpdate(DailyLogBase):
+    """Mise à jour partielle : tous les champs sont optionnels."""
+    date: Optional[date_type] = None
+    avg_weight_g: Optional[float] = None
+    mortality: Optional[int] = None
+    symptom: Optional[str] = None
 
 
 class DailyLogOut(DailyLogBase):

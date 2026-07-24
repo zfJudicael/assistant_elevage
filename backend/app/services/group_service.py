@@ -18,17 +18,17 @@ def get_groups(
     skip: int = 0,
     limit: int = 100,
     status: Optional[str] = None,
-    house: Optional[str] = None,
-    section: Optional[str] = None,
+    # house: Optional[str] = None,
+    # section: Optional[str] = None,
     breed: Optional[str] = None,
 ):
     query = db.query(models.ProductionGroup)
     if status:
         query = query.filter(models.ProductionGroup.status == status)
-    if house:
-        query = query.filter(models.ProductionGroup.house == house)
-    if section:
-        query = query.filter(models.ProductionGroup.section == section)
+    # if house:
+        # query = query.filter(models.ProductionGroup.house == house)
+    # if section:
+    #     query = query.filter(models.ProductionGroup.section == section)
     if breed:
         query = query.filter(models.ProductionGroup.breed == breed)
     return query.offset(skip).limit(limit).all()

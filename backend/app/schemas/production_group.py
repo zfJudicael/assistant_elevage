@@ -55,7 +55,7 @@ class ProductionGroupUpdate(BaseModel):
     # water_intake: Optional[float] = None
     # last_vaccination: Optional[str] = None
     # next_vaccination: Optional[str] = None
-    active_symptoms: Optional[str] = None
+    # active_symptoms: Optional[str] = None
     health_alert: Optional[str] = None
 
 
@@ -71,5 +71,5 @@ class ProductionGroupOut(ProductionGroupBase):
 class ProductionGroupDetailOut(ProductionGroupOut):
     """Réponse complète avec relations — GET /groups/{id}."""
     daily_logs: List[DailyLogOut] = []
-    vaccinations: List[VaccinationOut] = []
+    # vaccinations: List[VaccinationOut] = []
     # growth_data: List[GrowthDataOut] = []

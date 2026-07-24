@@ -78,7 +78,7 @@ class ProductionGroup(Base):
     # water_intake = Column(Float, nullable=True)
     # last_vaccination = Column(String, nullable=True)
     # next_vaccination = Column(String, nullable=True)
-    active_symptoms = Column(String, nullable=True)
+    # active_symptoms = Column(String, nullable=True)
     health_alert = Column(String, nullable=True)
 
     daily_logs = relationship(
@@ -120,7 +120,7 @@ class DailyLog(Base):
     # day = Column(String, nullable=False)          # ex: "D23"
     avg_weight_g = Column(Float, nullable=True)    # poids moyen en grammes
     mortality = Column(Integer, nullable=False, default=0)
-    # feed = Column(Float, nullable=True)
+    date = Column(Date, nullable=False, default=date.today)  # au plus un log par jour et par lot    # feed = Column(Float, nullable=True)
     # water = Column(Float, nullable=True)
     # temp_min = Column(Float, nullable=True)
     # temp_max = Column(Float, nullable=True)

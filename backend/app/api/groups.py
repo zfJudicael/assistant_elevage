@@ -16,13 +16,11 @@ def list_groups(
     skip: int = 0,
     limit: int = 100,
     status: Optional[str] = Query(None, description="Filtrer par statut (Healthy, Alert, Warning)"),
-    house: Optional[str] = Query(None, description="Filtrer par bâtiment"),
-    section: Optional[str] = Query(None, description="Filtrer par section"),
     breed: Optional[str] = Query(None, description="Filtrer par race"),
     db: Session = Depends(get_db),
 ):
     """Liste tous les lots de production, avec filtres optionnels."""
-    return group_service.get_groups(db, skip, limit, status, house, section, breed)
+    return group_service.get_groups(db, skip, limit, status, breed)
 
 
 @router.get("/{group_id}", response_model=schemas.ProductionGroupDetailOut)
