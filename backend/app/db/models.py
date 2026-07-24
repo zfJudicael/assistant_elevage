@@ -9,12 +9,17 @@ Structure relationnelle :
 
 import uuid
 
-from sqlalchemy import Column, Integer, Float, String, ForeignKey, Date, DateTime, Uuid
+from sqlalchemy import Column, Integer, Float, String, ForeignKey, Date, DateTime, Uuid, Enum
 from sqlalchemy.orm import Mapped, mapped_column, mapped_column, relationship
 from datetime import date, datetime
+from enum import Enum as PyEnum
 
 from app.db.database import Base
 
+
+class ConversationType(str, PyEnum):
+    GLOBAL = "global"
+    GROUP = "group"
 
 class Conversation(Base):
     __tablename__ = "conversations"
@@ -26,6 +31,8 @@ class Conversation(Base):
         String(200),
         default="Nouvelle conversation",
     )
+
+    type = Column(Enum(ConversationType), default=ConversationType.GLOBAL)
 
     created_at: Mapped[datetime] = mapped_column(
         default=datetime.now
