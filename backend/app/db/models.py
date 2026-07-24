@@ -8,7 +8,7 @@ Structure relationnelle :
 """
 from sqlalchemy import Column, Integer, Float, String, ForeignKey, Date, DateTime
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import date, datetime
 
 from app.db.database import Base
 
@@ -19,15 +19,14 @@ class ProductionGroup(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)  # ex: "BR-2023-04"
     batch_name = Column(String, nullable=False)
-    date_enter = Column(Date, nullable=False)
+    # date_enter = Column(Date, nullable=False)
     count = Column(Integer, nullable=False, default=0)
     # mortality = Column(Float, nullable=False, default=0.0)  # taux en %
     status = Column(String, nullable=False, default="Healthy")
     # house = Column(String, nullable=True)
     # section = Column(String, nullable=True)
     breed = Column(String, nullable=True)
-    # hatch_date = Column(Date, nullable=True)
-    active = Column(Integer, nullable=False, default=0)
+    hatch_date = Column(Date, nullable=True)
     mortality_total = Column(Integer, nullable=False, default=0)
     # feed_intake = Column(Float, nullable=True)
     # water_intake = Column(Float, nullable=True)
@@ -48,6 +47,21 @@ class ProductionGroup(Base):
     #     "GrowthData", back_populates="group",
     #     cascade="all, delete-orphan", order_by="GrowthData.day"
     # )
+
+    @property
+    def age_days(self):
+        return (date.today() - self.hatch_date).days
+
+    @property
+    def mortality(self):
+        if self.mortality_total:
+            return self.count / self.mortality_total 
+        return 0
+    
+    @property
+    def active(self):
+        return self.count - self.mortality_total
+    
 
 
 class DailyLog(Base):

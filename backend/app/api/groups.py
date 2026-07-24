@@ -37,8 +37,6 @@ def get_group_detail(group_id: int, db: Session = Depends(get_db)):
 @router.post("", response_model=schemas.ProductionGroupOut, status_code=201)
 def create_group(group: schemas.ProductionGroupCreate, db: Session = Depends(get_db)):
     """Crée un nouveau lot de production."""
-    if group_service.get_group(db, group.id):
-        raise HTTPException(status_code=409, detail=f"Le lot '{group.id}' existe déjà")
     return group_service.create_group(db, group)
 
 
