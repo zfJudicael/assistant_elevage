@@ -7,7 +7,7 @@ def save_message(db: Session, group_id: int, payload: schemas.ChatPayload) -> Ch
     message = ChatMessage(
         group_id=group_id,
         role="assistant" if payload.role == "assistant" else "user",
-        content=payload.message
+        message=payload.message
     )
     db.add(message)
     db.commit()

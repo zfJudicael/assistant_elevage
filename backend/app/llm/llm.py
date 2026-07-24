@@ -1,6 +1,5 @@
 from langchain.agents import create_agent
 from langchain_ollama import ChatOllama
-from langchain_core.messages import HumanMessage
 
 from app.core.config import settings
 
@@ -24,14 +23,13 @@ def ask_agent(question: str):
     Fonction qui envoie une question à l'agent et retourne la réponse.
     """
 
-    # Formatage du message utilisateur pour LangGraph.
-    message = {
-        "messages": [{"role": "user", "content": HumanMessage(content=question)}]
-    }
+    response = agent.invoke({
+        "messages": [{"role": "user", "content": question}]
+    })
 
-    response = agent.invoke(message)
+    print("Response from agent:", response)
 
-    return response["messages"][-1].content_blocks
+    return response["messages"][-1].content
 
 
 # print(response.content)

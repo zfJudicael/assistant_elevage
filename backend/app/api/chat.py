@@ -8,12 +8,11 @@ from app.services.chat_service import save_message
 from app.llm.llm import ask_agent
 
 
-router = APIRouter(prefix="/group/{group_id}/chat", tags=["Chat"])
+router = APIRouter(prefix="/group", tags=["Chat"])
 
-@router.post("")
-async def chat_endpoint(group_id, payload: schemas.ChatPayload, db: Session = Depends(get_db)):
+@router.post("/{group_id}/chat")
+def chat_endpoint(group_id: int, payload: schemas.ChatPayload, db: Session = Depends(get_db)):
     try:
-        
         # Sauvegarde du message utilisateur dans l'historique.
         save_message(db, group_id, payload)
 
