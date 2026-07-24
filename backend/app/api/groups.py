@@ -26,7 +26,7 @@ def list_groups(
 
 
 @router.get("/{group_id}", response_model=schemas.ProductionGroupDetailOut)
-def get_group_detail(group_id: str, db: Session = Depends(get_db)):
+def get_group_detail(group_id: int, db: Session = Depends(get_db)):
     """Détail complet d'un lot : infos + journaux + vaccinations + croissance."""
     db_group = group_service.get_group(db, group_id)
     if not db_group:

@@ -85,18 +85,18 @@ class Vaccination(Base):
     group = relationship("ProductionGroup", back_populates="vaccinations")
 
 
-class GrowthData(Base):
-    """Courbe de croissance : poids réel vs poids cible par jour."""
-    __tablename__ = "growth_data"
+# class GrowthData(Base):
+#     """Courbe de croissance : poids réel vs poids cible par jour."""
+#     __tablename__ = "growth_data"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    group_id = Column(Integer, ForeignKey("production_groups.id"), nullable=False)
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     group_id = Column(Integer, ForeignKey("production_groups.id"), nullable=False)
 
-    day = Column(Integer, nullable=False)
-    actual = Column(Float, nullable=True)
-    target = Column(Float, nullable=False)
+#     day = Column(Integer, nullable=False)
+#     actual = Column(Float, nullable=True)
+#     target = Column(Float, nullable=False)
 
-    group = relationship("ProductionGroup", back_populates="growth_data")
+#     group = relationship("ProductionGroup", back_populates="growth_data")
 
 
 class ChatMessage(Base):

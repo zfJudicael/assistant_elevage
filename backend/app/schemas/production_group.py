@@ -37,7 +37,7 @@ class ProductionGroupCreate(ProductionGroupBase):
 class ProductionGroupUpdate(BaseModel):
     """Mise à jour partielle : tous les champs sont optionnels."""
     batch_name: Optional[str] = None
-    date_enter: Optional[int] = None
+    date_enter: Optional[date] = None
     count: Optional[int] = None
     # mortality: Optional[float] = None
     status: Optional[str] = None
