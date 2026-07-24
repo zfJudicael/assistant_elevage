@@ -1,13 +1,12 @@
 from langchain.agents import create_agent
 from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 
 from app.core.config import settings
 
-llm = ChatOllama(
+llm = ChatOpenAI(
     model=settings.DEFAULT_MODEL,
     temperature=settings.TEMPERATURE,
-    top_p=settings.TOP_P,
-    top_k=settings.TOP_K,
     api_key=settings.OLLAMA_API_KEY,
     base_url=settings.OLLAMA_BASE_URL,
 )

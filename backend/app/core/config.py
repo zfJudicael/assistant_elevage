@@ -16,4 +16,8 @@ class Settings:
     TOP_P: float = float(os.getenv("TOP_P", 0.9))
     TOP_K: int = int(os.getenv("TOP_K", 40))
 
+    EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "embeddinggemma")
+    KNOWLEDGE_DOCS_DIR: str = os.getenv("KNOWLEDGE_DOCS_DIR", "./data/knowledge_docs/")
+    VECTORSTORE_DIR: str = os.getenv("VECTORSTORE_DIR", "./data/vectorstore/")
+    
 settings = Settings()
