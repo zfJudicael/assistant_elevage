@@ -11,6 +11,14 @@ llm = ChatOpenAI(
     base_url=settings.OLLAMA_BASE_URL,
 )
 
+def get_llm():
+    return ChatOpenAI(
+        model=settings.DEFAULT_MODEL,
+        temperature=settings.TEMPERATURE,
+        api_key=settings.OLLAMA_API_KEY,
+        base_url=settings.OLLAMA_BASE_URL,
+    )
+    
 agent = create_agent(
     model=llm,
     tools=[],

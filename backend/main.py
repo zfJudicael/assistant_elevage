@@ -1,9 +1,12 @@
+import uuid
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.db.database import engine, Base
-from app.api import groups, daily_logs, vaccinations, growth_data, stats, chat
+from app.api import groups, daily_logs, vaccinations, stats, conversation, message
+
 
 # Crée les tables au démarrage si elles n'existent pas
 Base.metadata.create_all(bind=engine)
@@ -26,10 +29,9 @@ app.add_middleware(
 app.include_router(groups.router)
 app.include_router(daily_logs.router)
 app.include_router(vaccinations.router)
-# app.include_router(growth_data.router)
 app.include_router(stats.router)
-app.include_router(chat.router)
-
+app.include_router(conversation.router)
+app.include_router(message.router)
 
 @app.get("/", tags=["Root"])
 def root():

@@ -6,12 +6,58 @@ Structure relationnelle :
 - ProductionGroup (1) --- (N) Vaccination
 - ProductionGroup (1) --- (N) GrowthData
 """
-from sqlalchemy import Column, Integer, Float, String, ForeignKey, Date, DateTime
-from sqlalchemy.orm import relationship
+
+import uuid
+
+from sqlalchemy import Column, Integer, Float, String, ForeignKey, Date, DateTime, Uuid
+from sqlalchemy.orm import Mapped, mapped_column, mapped_column, relationship
 from datetime import date, datetime
 
 from app.db.database import Base
 
+
+class Conversation(Base):
+    __tablename__ = "conversations"
+    """Table conversation pour stocker les messages de chat par groupe de production."""
+
+    id = Column(Uuid, primary_key=True, default=uuid.uuid4, unique=True)
+
+    title: Mapped[str] = mapped_column(
+        String(200),
+        default="Nouvelle conversation",
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        default=datetime.now
+    )
+
+    messages = relationship(
+        "Message",
+        back_populates="conversation",
+        cascade="all, delete",
+    )
+
+class Message(Base):
+    __tablename__ = "messages"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    conversation_id: Mapped[Uuid] = mapped_column(
+        ForeignKey("conversations.id")
+    )
+
+    role: Mapped[str]
+
+    content: Mapped[str]
+
+    created_at: Mapped[datetime] = mapped_column(
+        default=datetime.now
+    )
+
+    conversation = relationship(
+        "Conversation",
+        back_populates="messages",
+    )
 
 class ProductionGroup(Base):
     """Table principale : un lot de production (batch) de poulets."""

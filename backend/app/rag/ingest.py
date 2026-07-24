@@ -9,14 +9,8 @@ Usage:
 from pathlib import Path
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_chroma import Chroma
 from app.core.config import settings
-from langchain_huggingface import HuggingFaceEmbeddings
-
-
-def get_embeddings():
-    return HuggingFaceEmbeddings(model_name="BAAI/bge-m3",)
-
+from .vectorstore import get_vectorstore
 
 def ingest_documents():
     docs_dir = Path(settings.KNOWLEDGE_DOCS_DIR)
@@ -45,15 +39,11 @@ def ingest_documents():
 
     print(f"Total: {len(all_chunks)} chunks. Génération des embeddings...")
 
-    vectorstore = Chroma(
-        collection_name="pounder_knowledge",
-        embedding_function=get_embeddings(),
-        persist_directory=settings.VECTORSTORE_DIR,
-    )
+    vectorstore = get_vectorstore()
     vectorstore.add_documents(all_chunks)
 
     print(f"Base vectorielle mise à jour dans {settings.VECTORSTORE_DIR}")
 
 
-if __name__ == "__main__":
-    ingest_documents()
+# if __name__ == "__main__":
+#     ingest_documents()

@@ -135,77 +135,77 @@ RAW_DATA = [
 def init_db():
     """Crée les tables (si absentes) et insère les données de départ."""
     Base.metadata.create_all(bind=engine)
-    db = SessionLocal()
 
-    try:
-        for item in RAW_DATA:
-            existing = db.query(models.ProductionGroup).filter(
-                models.ProductionGroup.id == item["id"]
-            ).first()
-            if existing:
-                print(f"[SKIP] {item['id']} existe déjà")
-                continue
+    # db = SessionLocal()
+    # try:
+    #     for item in RAW_DATA:
+    #         existing = db.query(models.ProductionGroup).filter(
+    #             models.ProductionGroup.id == item["id"]
+    #         ).first()
+    #         if existing:
+    #             print(f"[SKIP] {item['id']} existe déjà")
+    #             continue
 
-            db_group = models.ProductionGroup(
-                id=item["id"],
-                batch_name=item["batchName"],
-                date_enter=item["date_enter"],
-                count=item["count"],
-                # mortality=item["mortality"],
-                status=item["status"],
-                # house=item["house"],
-                # section=item["section"],
-                # breed=item["breed"],
-                # hatch_date=datetime.strptime(item["hatchDate"], "%Y-%m-%d").date(),
-                active=item["active"],
-                mortality_total=item["mortalityTotal"],
-                # feed_intake=item["feedIntake"],
-                # water_intake=item["waterIntake"],
-                # last_vaccination=item["lastVaccination"],
-                # next_vaccination=item["nextVaccination"],
-                active_symptoms=item["activeSymptoms"],
-                health_alert=item["healthAlert"],
-            )
-            db.add(db_group)
-            db.flush()
+    #         db_group = models.ProductionGroup(
+    #             id=item["id"],
+    #             batch_name=item["batchName"],
+    #             date_enter=item["date_enter"],
+    #             count=item["count"],
+    #             # mortality=item["mortality"],
+    #             status=item["status"],
+    #             # house=item["house"],
+    #             # section=item["section"],
+    #             # breed=item["breed"],
+    #             # hatch_date=datetime.strptime(item["hatchDate"], "%Y-%m-%d").date(),
+    #             active=item["active"],
+    #             mortality_total=item["mortalityTotal"],
+    #             # feed_intake=item["feedIntake"],
+    #             # water_intake=item["waterIntake"],
+    #             # last_vaccination=item["lastVaccination"],
+    #             # next_vaccination=item["nextVaccination"],
+    #             active_symptoms=item["activeSymptoms"],
+    #             health_alert=item["healthAlert"],
+    #         )
+    #         db.add(db_group)
+    #         db.flush()
 
-            for log in item["dailyLogs"]:
-                db.add(models.DailyLog(
-                    group_id=db_group.id,
-                    # day=log["day"],
-                    avg_weight_g=parse_weight(log["avgWeight"]),
-                    mortality=log["mortality"],
-                    # feed=log["feed"],
-                    # water=log["water"],
-                    # temp_min=log["tempMin"],
-                    # temp_max=log["tempMax"],
-                    # humidity=log["humidity"],
-                    # lit_quality=log["litQuality"],
-                ))
+    #         for log in item["dailyLogs"]:
+    #             db.add(models.DailyLog(
+    #                 group_id=db_group.id,
+    #                 # day=log["day"],
+    #                 avg_weight_g=parse_weight(log["avgWeight"]),
+    #                 mortality=log["mortality"],
+    #                 # feed=log["feed"],
+    #                 # water=log["water"],
+    #                 # temp_min=log["tempMin"],
+    #                 # temp_max=log["tempMax"],
+    #                 # humidity=log["humidity"],
+    #                 # lit_quality=log["litQuality"],
+    #             ))
 
-            for vacc in item["vaccinations"]:
-                db.add(models.Vaccination(
-                    group_id=db_group.id,
-                    day=vacc["day"],
-                    date=vacc["date"],
-                    treatment=vacc["treatment"],
-                    status=vacc["status"],
-                ))
+    #         for vacc in item["vaccinations"]:
+    #             db.add(models.Vaccination(
+    #                 group_id=db_group.id,
+    #                 day=vacc["day"],
+    #                 date=vacc["date"],
+    #                 treatment=vacc["treatment"],
+    #                 status=vacc["status"],
+    #             ))
 
-            # for growth in item["growthData"]:
-            #     db.add(models.GrowthData(
-            #         group_id=db_group.id,
-            #         day=growth["day"],
-            #         actual=growth["actual"],
-            #         target=growth["target"],
-            #     ))
+    #         # for growth in item["growthData"]:
+    #         #     db.add(models.GrowthData(
+    #         #         group_id=db_group.id,
+    #         #         day=growth["day"],
+    #         #         actual=growth["actual"],
+    #         #         target=growth["target"],
+    #         #     ))
 
-            print(f"[OK] {item['id']} inséré")
+    #         print(f"[OK] {item['id']} inséré")
 
-        db.commit()
-        print("Initialisation de la base terminée.")
-    finally:
-        db.close()
+    #     db.commit()
+    #     print("Initialisation de la base terminée.")
+    # finally:
+    #     db.close()
 
 
 if __name__ == "__main__":
