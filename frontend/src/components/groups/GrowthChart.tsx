@@ -24,7 +24,7 @@ export default function GrowthChart({ data }: { data: GrowthPoint[] }) {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="day" tickFormatter={(v) => `Jour ${v}`} tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} />
-                <Tooltip formatter={(value: number) => `${value}g`} />
+                <Tooltip formatter={(value) => `${value ?? ""}g`} />
                 <Line
                     type="monotone"
                     dataKey="actual"

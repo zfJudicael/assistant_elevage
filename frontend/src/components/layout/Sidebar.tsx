@@ -1,14 +1,7 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import {
-    LayoutDashboard,
-    Component,
-    HeartPulse,
-    MessageSquare,
-    Settings,
-    HelpCircle,
-    Plus,
-} from "lucide-react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Component, Settings, HelpCircle, Plus } from "lucide-react";
 import { useApp } from "../../context/AppContext";
+import { RoosterLogo } from "./AkohoHeader";
 
 const navItems = [
     { to: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
@@ -24,13 +17,21 @@ export default function Sidebar() {
     return (
         <aside className="w-64 min-h-screen bg-white border-r border-gray-200 flex flex-col">
             {/* Logo */}
-            <div className="px-5 py-5 border-b border-gray-100">
-                <h1 className="text-xl font-bold text-green-800 tracking-tight">Taiza Akoho</h1>
-            </div>
+            <Link
+                to="/"
+                className="flex items-center gap-2 justify-center px-5 py-4 border-b border-gray-100"
+            >
+                <RoosterLogo />
+                <div className="flex flex-col leading-tight">
+                    <span className="font-serif text-2xl font-semibold text-primary">
+                        Taiza Akoho
+                    </span>
+                </div>
+            </Link>
 
             {/* Profil */}
             <div className="px-5 py-4 border-b border-gray-100">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 px-2 py-1 rounded-lg hover:bg-gray-100 cursor-pointer">
                     {currentUserLoading ? (
                         <div className="w-10 h-10 bg-gray-100 rounded-full animate-pulse flex-shrink-0" />
                     ) : currentUser?.avatar ? (
@@ -40,16 +41,16 @@ export default function Sidebar() {
                             className="w-10 h-10 rounded-full object-cover flex-shrink-0"
                         />
                     ) : (
-                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
-                            <div className="w-12 h-12 bg-gray-500 rounded-full" />
+                        <div className="w-10 h-10 bg-green-800 text-white rounded-full flex items-center justify-center overflow-hidden flex-shrink-0 text-md font-bold ">
+                            LI
                         </div>
                     )}
                     <div className="min-w-0">
                         <p className="text-sm font-semibold text-gray-800 truncate">
-                            {currentUserLoading ? "…" : currentUser?.name || "Guest"}
+                            {currentUserLoading ? "…" : currentUser?.name || "Lorem Ipsum"}
                         </p>
                         <p className="text-xs text-gray-500 truncate">
-                            {currentUserLoading ? "" : currentUser?.role || ""}
+                            {currentUserLoading ? "" : currentUser?.role || "Technicien "}
                         </p>
                     </div>
                 </div>

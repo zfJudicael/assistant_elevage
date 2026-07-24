@@ -1,11 +1,20 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Edit2, Download, Plus } from "lucide-react";
 import { useApp } from "../context/AppContext";
-import Badge from "../components/ui/Badge";
-import GrowthChart from "../components/groups/GrowthChart";
 import Spinner from "../components/ui/Spinner";
 import ErrorState from "../components/ui/ErrorState";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { MetricCard } from "../components/groupDetail/MetricCard";
+import { Users, Utensils } from "lucide-react";
+import { apiClient } from "../api/client";
+import DailyLogsPanel from "../components/groupDetail/DailyLogsPanel";
+
+interface ConsumptionGroup {
+    feedKg: number;
+    feedPerBird: number;
+    waterL: number;
+    withinRangePct: number;
+}
 
 export default function GroupDetail() {
     const { id } = useParams();
@@ -33,6 +42,20 @@ export default function GroupDetail() {
         );
     }
 
+    const [consumptionGroup, setConsumptionGroup] = useState<ConsumptionGroup>();
+
+    useEffect(() => {
+        // Fetch consumption data for the group
+        apiClient
+            .get<ConsumptionGroup>(`/groups/${id}/consumption`)
+            .then(setConsumptionGroup)
+            .catch((error) => {
+                console.error(
+                    "Erreur lors de la récupération des données de consommation :",
+                    error,
+                );
+            });
+    }, [id]);
     return (
         <div>
             <div className="text-xs text-gray-500 mb-3">
@@ -58,9 +81,128 @@ export default function GroupDetail() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                {/* Population */}
-                <div className="bg-white border border-gray-200 rounded-xl p-5">
+            {group && (
+                <>
+                    <div className="grid gap-4 md:grid-cols-3 mb-6">
+                        <MetricCard
+                            label="Population"
+                            icon={<Users className="h-4 w-4" />}
+                            accentColor="green"
+                            // footer={
+                            //     <span className="inline-flex items-center gap-1 text-success">
+                            //         ↓ {group.population.deltaYesterday} from yesterday
+                            //     </span>
+                            // }
+                        >
+                            <div className="font-serif text-4xl font-bold">
+                                {group.count.toLocaleString()}
+                            </div>
+                            <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                                <div>
+                                    <div className="text-xs text-muted-foreground">Active</div>
+                                    <div className="font-mono font-semibold text-primary">
+                                        {group.active.toLocaleString()}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="text-xs text-muted-foreground">
+                                        Mortality (TTL)
+                                    </div>
+                                    <div className="font-mono font-semibold text-destructive">
+                                        {group.mortalityTotal}{" "}
+                                        <span className="text-xs">({group.mortality}%)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </MetricCard>
+
+                        {consumptionGroup && (
+                            <MetricCard
+                                label="Consumption (Daily)"
+                                icon={<Utensils className="h-4 w-4" />}
+                                accentColor="orange"
+                                footer={
+                                    <span className="inline-flex items-center gap-1 text-accent">
+                                        ⓵ Within expected range (+{consumptionGroup.withinRangePct}
+                                        %)
+                                    </span>
+                                }
+                            >
+                                <div className="font-serif text-4xl font-bold">
+                                    {consumptionGroup.feedKg} <span className="text-lg">kg</span>
+                                </div>
+                                <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                                    <div>
+                                        <div className="text-xs text-muted-foreground">
+                                            Feed Intake
+                                        </div>
+                                        <div className="font-mono font-semibold text-accent">
+                                            {consumptionGroup.feedPerBird} g/bird
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="text-xs text-muted-foreground">
+                                            Water Intake
+                                        </div>
+                                        <div className="font-mono font-semibold">
+                                            {consumptionGroup.waterL} L
+                                        </div>
+                                    </div>
+                                </div>
+                            </MetricCard>
+                        )}
+
+                        {/* 
+                        <MetricCard
+                            label="Health Alert"
+                            icon={<Heart className="h-4 w-4" />}
+                            accentColor="yellow"
+                            footer={
+                                <span className="inline-flex items-center gap-1">
+                                    <Calendar className="h-3.5 w-3.5" /> Next:{" "}
+                                    {group.health.nextVaccination}
+                                </span>
+                            }
+                        >
+                            <div className="font-serif text-3xl font-bold">
+                                {group.health.status}
+                            </div>
+                            <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                                <div>
+                                    <div className="text-xs text-muted-foreground">
+                                        Last Vaccination
+                                    </div>
+                                    <span className="mt-1 inline-block rounded-md bg-warning-soft px-2 py-0.5 font-mono text-xs font-semibold text-warning">
+                                        {group.health.lastVaccination}
+                                    </span>
+                                </div>
+                                <div>
+                                    <div className="text-xs text-muted-foreground">
+                                        Active Symptoms
+                                    </div>
+                                    <div className="text-xs font-semibold">
+                                        {group.health.symptoms}
+                                    </div>
+                                </div>
+                            </div>
+                        </MetricCard>
+                    </div> */}
+
+                        {/* <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_360px]">
+                        <GrowthChart data={group.growth} />
+                        <MedicalLogTable log={group.medicalLog} />
+                    </div>
+
+                    <div className="mt-6">
+                        <DailyLogTable rows={group.dailyLog} />
+                    </div> */}
+                    </div>
+                </>
+            )}
+
+            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"> */}
+            {/* Population */}
+            {/* <div className="bg-white border border-gray-200 rounded-xl p-5">
                     <div className="flex items-start justify-between">
                         <div>
                             <p className="text-xs font-medium text-gray-500 uppercase">
@@ -90,24 +232,24 @@ export default function GroupDetail() {
                         </div>
                     </div>
                     <p className="text-xs text-gray-400 mt-3">↘ -2 depuis hier</p>
-                </div>
+                </div> */}
 
-                {/* Consumption */}
-                <div className="bg-white border border-gray-200 rounded-xl p-5">
+            {/* Consumption */}
+            {/* <div className="bg-white border border-gray-200 rounded-xl p-5">
                     <div className="flex items-start justify-between">
                         <div>
                             <p className="text-xs font-medium text-gray-500 uppercase">
                                 Consommation (Quotidienne)
                             </p>
-                            {/* <p className="text-2xl font-bold text-gray-900 mt-1">
+                            <p className="text-2xl font-bold text-gray-900 mt-1">
                                 {group.feedIntake * 1.5} kg
-                            </p> */}
+                            </p>
                         </div>
                         <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-amber-50 text-lg">
                             🍽️
                         </div>
                     </div>
-                    {/* <div className="flex justify-between mt-4">
+                    <div className="flex justify-between mt-4">
                         <div>
                             <p className="text-xs text-gray-500">Apport alimentaire</p>
                             <p className="text-sm font-semibold text-orange-500">
@@ -120,32 +262,32 @@ export default function GroupDetail() {
                                 {group.waterIntake} L
                             </p>
                         </div>
-                    </div> */}
+                    </div>
                     <p className="text-xs text-gray-400 mt-3">⚠ Dans la plage attendue (+1,2%)</p>
-                </div>
+                </div> */}
 
-                {/* Health */}
-                <div className="bg-white border border-gray-200 rounded-xl p-5">
+            {/* Health */}
+            {/* <div className="bg-white border border-gray-200 rounded-xl p-5">
                     <div className="flex items-start justify-between">
                         <div>
                             <p className="text-xs font-medium text-gray-500 uppercase">
                                 Alerte sanitaire
                             </p>
-                            {/* <p className="text-2xl font-bold text-gray-900 mt-1">
+                            <p className="text-2xl font-bold text-gray-900 mt-1">
                                 {group.healthAlert}
-                            </p> */}
+                            </p>
                         </div>
                         <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-green-50 text-lg">
                             ❤️
                         </div>
                     </div>
                     <div className="mt-4 space-y-2">
-                        {/* <div className="flex justify-between text-sm">
+                        <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Dernière vaccination</span>
                             <span className="font-medium text-gray-900">
                                 {group.lastVaccination}
                             </span>
-                        </div> */}
+                        </div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Symptômes actifs</span>
                             <span className="font-medium text-gray-900">
@@ -154,14 +296,12 @@ export default function GroupDetail() {
                         </div>
                     </div>
                     <p className="text-xs text-gray-400 mt-3">
-                        {/* 📅 Prochain : {group.nextVaccination} */}
-                        📅 Prochain : STATIC
+                        📅 Prochain : {group.nextVaccination}
                     </p>
                 </div>
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-                {/* Growth Chart */}
                 <div className="bg-white border border-gray-200 rounded-xl">
                     <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
                         <h2 className="font-semibold text-gray-900">
@@ -172,12 +312,8 @@ export default function GroupDetail() {
                             <span>⟳ Objectif (g)</span>
                         </div>
                     </div>
-                    {/* <div className="p-4">
-                        <GrowthChart data={group.growthData} />
-                    </div> */}
                 </div>
 
-                {/* Vaccination Log */}
                 <div className="bg-white border border-gray-200 rounded-xl">
                     <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
                         <h2 className="font-semibold text-gray-900">
@@ -187,30 +323,6 @@ export default function GroupDetail() {
                             <Plus size={16} />
                         </button>
                     </div>
-                    {/* <table className="w-full text-sm">
-                        <thead>
-                            <tr className="text-left text-xs text-gray-500 uppercase border-b border-gray-100">
-                                <th className="px-5 py-2 font-medium">Date</th>
-                                <th className="px-5 py-2 font-medium">Traitement</th>
-                                <th className="px-5 py-2 font-medium">Statut</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {group.vaccinations.map((v, i) => (
-                                <tr key={i} className="border-b border-gray-50 last:border-0">
-                                    <td className="px-5 py-2.5">
-                                        <strong>{v.day}</strong>
-                                        <br />
-                                        <small className="text-gray-400">({v.date})</small>
-                                    </td>
-                                    <td className="px-5 py-2.5">{v.treatment}</td>
-                                    <td className="px-5 py-2.5">
-                                        <Badge status={v.status} />
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table> */}
                     <button className="w-full text-center text-sm text-green-700 font-medium py-3 hover:underline">
                         Voir l'historique médical complet
                     </button>
@@ -268,6 +380,9 @@ export default function GroupDetail() {
                     </div>
                 </div>
             )} */}
+            <div className="mb-6">
+                <DailyLogsPanel groupId={group.id} />
+            </div>
         </div>
     );
 }

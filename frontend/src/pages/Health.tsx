@@ -62,7 +62,7 @@ export default function Health() {
                                     <div>
                                         <p className="text-xs text-gray-500">Âge</p>
                                         <p className="text-sm font-semibold text-gray-900">
-                                            {g.age} jours
+                                            {g.ageDays} jours
                                         </p>
                                     </div>
                                 </div>

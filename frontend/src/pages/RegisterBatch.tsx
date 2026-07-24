@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { MapPin, Users, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import { useApp } from "../context/AppContext";
 
 // Reference list of breeds for the select input. This is static reference
