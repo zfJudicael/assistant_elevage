@@ -7,21 +7,25 @@ import { AppProvider } from "./context/AppContext";
 import GroupDetail from "./pages/GroupDetail";
 import RegisterBatch from "./pages/RegisterBatch";
 import Groups from "./pages/Groups";
+import ChatLayout from "./layouts/ChatLayout";
 
 function App() {
     return (
         <AppProvider>
             <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route element={<MainLayout />}>
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/groups" element={<Groups />} />
-                        <Route path="/groups/:id" element={<GroupDetail />} />
-                        <Route path="/register-batch" element={<RegisterBatch />} />
-                        <Route path="/health" element={<Health />} />
-                    </Route>
-                </Routes>
+                <ChatLayout>
+
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route element={<MainLayout />}>
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/groups" element={<Groups />} />
+                            <Route path="groups/:id" element={<GroupDetail />} />
+                            <Route path="register-batch" element={<RegisterBatch />} />
+                            <Route path="/health" element={<Health />} />
+                        </Route>
+                    </Routes>
+                </ChatLayout>
             </BrowserRouter>
         </AppProvider>
     );

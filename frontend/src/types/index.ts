@@ -81,18 +81,12 @@ export interface Technician {
 
 export type ConversationTarget = Conversation | Technician;
 
-export interface Message {
+export interface IMessage {
     id: number;
-    sender: string;
-    time: string;
-    avatar?: string;
-    text?: string;
-    image?: string;
-    isMe: boolean;
-    type: "text" | "image" | "automated";
-    title?: string;
-    subtitle?: string;
-    actionLabel?: string;
+    role: string;
+    content: string;
+    created_at: string;
+    conversation_id: string;
 }
 
 export interface CurrentUser {

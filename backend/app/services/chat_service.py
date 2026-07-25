@@ -13,4 +13,5 @@ def save_msg(db: Session, conversation_id: Uuid, payload: schemas.ChatPayload) -
     )
     db.add(message)
     db.commit()
+    db.refresh(message)
     return message

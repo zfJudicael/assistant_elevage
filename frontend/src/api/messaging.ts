@@ -1,5 +1,5 @@
 import { apiClient } from "./client";
-import type { Conversation, Technician, Message } from "../types";
+import type { Conversation, Technician, IMessage } from "../types";
 
 // Expected backend routes (adjust the paths here if your API differs):
 //   GET  /conversations                     -> Conversation[]
@@ -15,8 +15,11 @@ export const messagingApi = {
     apiClient.get<Technician[]>("/technicians", signal),
 
   getMessages: (conversationId: number, signal?: AbortSignal) =>
-    apiClient.get<Message[]>(`/conversations/${conversationId}/messages`, signal),
+    apiClient.get<IMessage[]>(`/message/${conversationId}`, signal),
 
-  sendMessage: (conversationId: number, text: string, signal?: AbortSignal) =>
-    apiClient.post<Message>(`/conversations/${conversationId}/messages`, { text }, signal),
+  sendMessage: (conversationId: string, message: string, signal?: AbortSignal) =>
+    apiClient.post<{data: IMessage}>(`/message/new/${conversationId}`, { 
+      message,
+      role: "user"
+     }, signal),
 };

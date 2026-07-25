@@ -6,6 +6,7 @@ import { ChatBubble } from "./ChatBubble";
 import { ChatInput } from "./ChatInput";
 import { HealthAlertBanner } from "./HealthAlertBanner";
 import type { ChatMessage } from "../../types";
+import {messagingApi} from "../../api/messaging";
 
 export function ChatPanel({
     groupId,
@@ -15,6 +16,7 @@ export function ChatPanel({
     title?: string;
 }) {
     // const { alerts } = useHealthAlerts();
+    const conversation_id = '753ed73a-b9d9-4823-b247-2058a9d9f091';
     const [messages, setMessages] = useState<ChatMessage[]>([
         {
             role: "assistant",
@@ -37,13 +39,13 @@ export function ChatPanel({
         setMessages((m) => [...m, { role: "user", content: text, timestamp: now }]);
         setPending(true);
         try {
-            const res = await postChat(text, groupId ? { groupId } : undefined);
+            const res = await messagingApi.sendMessage(conversation_id, text);
+            console.log(res)
             setMessages((m) => [
                 ...m,
                 {
                     role: "assistant",
-                    content: res.answer,
-                    sources: res.sources,
+                    content: res.data.content,
                     timestamp: new Date().toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",

@@ -16,5 +16,7 @@ class ChatMessage(ChatBase):
     date: datetime
 
 class ChatOut(ChatBase):
-    message: ChatMessage
-    response: ChatMessage
+    id: int
+    role: str
+    content: str
+    created_at: datetime
