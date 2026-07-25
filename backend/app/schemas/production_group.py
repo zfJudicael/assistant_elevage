@@ -29,7 +29,7 @@ class ProductionGroupBase(BaseModel):
     # water_intake: Optional[float] = None
     # last_vaccination: Optional[str] = None
     # next_vaccination: Optional[str] = None
-    active_symptoms: Optional[str] = None
+    # active_symptoms: Optional[str] = None
     health_alert: Optional[str] = None
 
 
