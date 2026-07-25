@@ -29,28 +29,23 @@ export interface GrowthPoint {
     target: number | null;
 }
 
-export interface Group {
-    id: string;
-    batchName: string;
-    ageDays: number;
+export type PounderRace = "Ross 308" | "Cobb 500";
+type BatchStatus = "Progress" | "Waiting" | "Finished";
+
+export interface IGroup {
+    id: number;
+    name: string;
+    start_date: string;
+    race: PounderRace;
     count: number;
+    homortality_totaluse: string;
+    status: BatchStatus;
+    age_days: number;
     mortality: number;
-    status: GroupStatus;
-    house: string;
-    section: string;
-    breed: string;
-    hatchDate: string;
     active: number;
-    mortalityTotal: number;
-    feedIntake: number;
-    waterIntake: number;
-    lastVaccination: string;
-    nextVaccination: string;
-    activeSymptoms: string;
-    healthAlert: string;
-    dailyLogs: DailyLog[];
-    vaccinations: Vaccination[];
+    daily_logs: DailyLog[];
 }
+
 
 export interface NewGroupInput {
     batchName: string;

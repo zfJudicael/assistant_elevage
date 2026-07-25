@@ -5,11 +5,34 @@ import Badge from "../components/ui/Badge";
 import StatCard from "../components/dashboard/StatCard";
 import Spinner from "../components/ui/Spinner";
 import ErrorState from "../components/ui/ErrorState";
+import { useEffect, useState } from "react";
+import { getGroups } from '../services/api';
+import type { IGroup } from "../types";
 
 export default function Dashboard() {
-    const { groups, groupsLoading, groupsError, refreshGroups, totalBirds, stats, statsLoading } =
+    const { groupsLoading, groupsError, refreshGroups, totalBirds, stats, statsLoading } =
         useApp();
+
     const navigate = useNavigate();
+    const [groups, setGroups] = useState<IGroup[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchGroups = async () => {
+            setLoading(true);
+            try {
+                const data = await getGroups();
+                setGroups(data);
+            } catch (err) {
+                setError('Impossible de charger les utilisateurs');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGroups();
+    }, []);
 
     return (
         <div>
@@ -87,10 +110,10 @@ export default function Dashboard() {
                                         <td className="px-5 py-3 font-medium text-gray-900">
                                             {group.id}
                                         </td>
-                                        <td className="px-5 py-3">{group.batchName}</td>
+                                        <td className="px-5 py-3">{group.name}</td>
                                         <td className="px-5 py-3">
                                             <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">
-                                                {group.ageDays} jours
+                                                {group.age_days} jours
                                             </span>
                                         </td>
                                         <td className="px-5 py-3">

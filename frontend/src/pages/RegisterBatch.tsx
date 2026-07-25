@@ -8,49 +8,51 @@ import { useApp } from "../context/AppContext";
 // your backend manages breeds dynamically, swap this for a fetch call
 // the same way groups/conversations are loaded in AppContext.
 const CHICKEN_BREEDS = ["Ross 308", "Cobb 500"];
-
-interface FormState {
-    batchName: string;
-    breed: string;
-    count: string;
-    hatchDate: string;
-}
+import type { PounderRace } from "../types";
+import { postGroup } from "../services/api";
 
 export default function RegisterBatch() {
     const { addGroup, addGroupLoading, addGroupError } = useApp();
     const navigate = useNavigate();
 
-    const [form, setForm] = useState<FormState>({
-        batchName: "",
-        breed: "",
+    interface FormState {
+        name: string
+        race: PounderRace
+        count: number
+        start_date: string
+    }
+
+    const [form, setForm] = useState({
+        name: "",
+        race: "Ross 308",
         count: "",
-        hatchDate: "",
+        start_date: "",
     });
 
     const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
 
-    const validate = () => {
-        const e: Partial<Record<keyof FormState, string>> = {};
-        if (!form.batchName) e.batchName = "Requis";
-        if (!form.breed) e.breed = "Requis";
-        if (!form.count || isNaN(Number(form.count))) e.count = "Nombre valide requis";
-        if (!form.hatchDate) e.hatchDate = "Requis";
-        return e;
-    };
+    // const validate = () => {
+    //     const e: Partial<Record<keyof FormState, string>> = {};
+    //     if (!form.batchName) e.batchName = "Requis";
+    //     if (!form.breed) e.breed = "Requis";
+    //     if (!form.count || isNaN(Number(form.count))) e.count = "Nombre valide requis";
+    //     if (!form.hatchDate) e.hatchDate = "Requis";
+    //     return e;
+    // };
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        const errs = validate();
-        if (Object.keys(errs).length > 0) {
-            setErrors(errs);
-            return;
-        }
+        // const errs = validate();
+        // if (Object.keys(errs).length > 0) {
+        //     setErrors(errs);
+        //     return;
+        // }
         try {
-            await addGroup({
-                batchName: form.batchName,
-                breed: form.breed,
+            const newGroup = await postGroup({
+                name: form.name,
+                race: form.race,
                 count: parseInt(form.count, 10),
-                hatchDate: form.hatchDate,
+                start_date: form.start_date ,
             });
             navigate("/groups");
         } catch (e) {

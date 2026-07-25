@@ -17,8 +17,8 @@ function App() {
                     <Route element={<MainLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/groups" element={<Groups />} />
-                        <Route path="groups/:id" element={<GroupDetail />} />
-                        <Route path="register-batch" element={<RegisterBatch />} />
+                        <Route path="/groups/:id" element={<GroupDetail />} />
+                        <Route path="/register-batch" element={<RegisterBatch />} />
                         <Route path="/health" element={<Health />} />
                     </Route>
                 </Routes>

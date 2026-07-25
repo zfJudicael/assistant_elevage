@@ -45,7 +45,7 @@ export default function Groups() {
                                 <div>
                                     <span className="text-xs text-gray-400">{group.id}</span>
                                     <h3 className="font-semibold text-gray-900">
-                                        {group.batchName}
+                                        {group.name}
                                     </h3>
                                 </div>
                                 <Badge status={group.status} />
@@ -60,7 +60,7 @@ export default function Groups() {
                                 <div>
                                     <p className="text-xs text-gray-500">Âge</p>
                                     <p className="text-sm font-semibold text-gray-900">
-                                        {group.ageDays} jours
+                                        {group.age_days} jours
                                     </p>
                                 </div>
                                 <div>
@@ -71,12 +71,6 @@ export default function Groups() {
                                         {group.mortality}%
                                     </p>
                                 </div>
-                            </div>
-                            <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-gray-100">
-                                <span>
-                                    {group.house}, {group.section}
-                                </span>
-                                <BarChart2 size={16} className="text-green-600" />
                             </div>
                         </div>
                     ))}
